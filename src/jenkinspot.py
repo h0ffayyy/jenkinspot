@@ -1,21 +1,31 @@
 #!/usr/bin/env python3
 
 import os
-from datetime import datetime
+import logging
 from flask import Flask, render_template, redirect, request, send_from_directory, url_for
+import configparser
 
 app = Flask(__name__)
+dir_path = os.path.dirname(os.path.realpath(__file__))
+formatter = logging.Formatter(fmt='%(asctime)s %(levelname)s %(message)s', datefmt='[%d/%b/%Y:%H:%M:%S %z]')
+
+
+def setup_logging(name, log_file, level=logging.INFO):
+
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger
 
 
 def login_attempt(ip,user,password,user_agent):
-    if os.path.exists("auth.log"):
-        file_mode = 'a'
-    else:
-        file_mode = 'w'
     
-    with open("/opt/jenkinspot/logs/auth.log", file_mode) as log:
-        log_time = datetime.now()
-        log.write(f'[{str(log_time.isoformat())}] - {ip} - user: {user} pass: {password} - {user_agent}\n')
+    auth_logger = setup_logging('auth_logger', f'{dir_path}/logs/auth.log')
+    auth_logger.info(f' {ip} - user: {user} pass: {password} - {user_agent}')
 
 
 @app.route('/jenkins/loginError')
@@ -72,4 +82,16 @@ def set_headers(response):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    jenkinspot_logger = setup_logging('jenkinspot', f'{dir_path}/logs/jenkinspot.log')
+    config = configparser.ConfigParser()
+    config.read('jenkinspot.conf')
+
+    host = config['honeypot']['HOST']
+    port = config['honeypot']['PORT']
+
+    try:
+        jenkinspot_logger.info(f'Starting Jenkinspot on {host}:{port}')
+        app.run(host=host, port=port, debug=False, threaded=True)
+    except Exception as e:
+        print(e)
+        jenkinspot_logger.error(e)
