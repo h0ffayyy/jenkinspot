@@ -8,7 +8,7 @@ A simple honeypot built with Flask that mimics the Jenkins login page. Currently
 
 ## Installation
 
-For quick setup, you can deploying Jenkinspot to a Docker container
+For quick setup, you can deploy Jenkinspot to a Docker container
 
 ### Docker
 
