@@ -39,5 +39,5 @@ $ docker exec jenkinspot bash -c 'tail /opt/jenkinspot/logs/auth.log'
 The following is an example log entry:
 
 ```
-[2021-02-15T07:10:42.535870] - 192.168.0.70 - user: admin pass: admin - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
+[15/Feb/2021:21:16:30 +0000] INFO  192.168.0.70 - user: admin pass: password - Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
 ```
