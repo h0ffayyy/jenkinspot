@@ -84,7 +84,7 @@ def set_headers(response):
 if __name__ == '__main__':
     jenkinspot_logger = setup_logging('jenkinspot', f'{dir_path}/logs/jenkinspot.log')
     config = configparser.ConfigParser()
-    config.read('jenkinspot.conf')
+    config.read(f'{dir_path}/jenkinspot.conf')
 
     host = config['honeypot']['HOST']
     port = config['honeypot']['PORT']
