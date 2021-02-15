@@ -11,7 +11,6 @@ formatter = logging.Formatter(fmt='%(asctime)s %(levelname)s %(message)s', datef
 
 
 def setup_logging(name, log_file, level=logging.INFO):
-
     handler = logging.FileHandler(log_file)
     handler.setFormatter(formatter)
 
@@ -23,7 +22,6 @@ def setup_logging(name, log_file, level=logging.INFO):
 
 
 def login_attempt(ip,user,password,user_agent):
-    
     auth_logger = setup_logging('auth_logger', f'{dir_path}/logs/auth.log')
     auth_logger.info(f' {ip} - user: {user} pass: {password} - {user_agent}')
 
@@ -38,10 +36,7 @@ def jenkins_sec_check():
     if request.method == 'POST':
         username = request.form['j_username']
         password = request.form['j_password']
-
         login_attempt(request.remote_addr,username,password,request.headers.get('User-Agent'))
-
-
     return redirect('/jenkins/loginError', code=302) 
 
 
@@ -56,10 +51,8 @@ def index():
 
 
 @app.route('/favicon.ico')
-def favicon(response):
-    response.headers['Content-Type'] = 'image/x-icon'
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/robots.txt')
@@ -91,7 +84,7 @@ if __name__ == '__main__':
 
     try:
         jenkinspot_logger.info(f'Starting Jenkinspot on {host}:{port}')
-        app.run(host=host, port=port, debug=False, threaded=True)
+        app.run(host=host, port=port, debug=True, threaded=True)
     except Exception as e:
         print(e)
         jenkinspot_logger.error(e)
