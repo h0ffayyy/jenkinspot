@@ -8,6 +8,7 @@ ADD src/static /opt/jenkinspot/static
 ADD src/jenkinspot.py /opt/jenkinspot/jenkinspot.py
 ADD src/jenkinspot.conf /opt/jenkinspot/jenkinspot.conf
 ADD src/requirements.txt /opt/jenkinspot/requirements.txt
+ADD src/ssl/* /opt/jenkinspot/ssl/
 RUN pip3 install -r /opt/jenkinspot/requirements.txt && chmod +x /opt/jenkinspot/jenkinspot.py
 RUN touch /opt/jenkinspot/logs/auth.log
 ADD conf/supervise-jenkinspot.conf /etc/supervisor/conf.d/supervise-jenkinspot.conf
