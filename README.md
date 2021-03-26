@@ -26,7 +26,10 @@ $ docker run -d --name jenkinspot -p 80:5000 jenkinspot
 
 ## Configuration
 
-Jenkinspot runs on 0.0.0.0:5000 in the container by default. You can modify these values in `src/jenkinspot.conf`
+Jenkinspot runs on 0.0.0.0:5000 in the container by default. You can modify these values in `src/jenkinspot.conf`. The default filenames are `server.crt` and `server.key`. You can also modify these filenames in the configuration file.
+
+### SSL
+By default SSL is set to false. If you would like to enable SSL, change the value in `src/jenkinspot.conf` to `true` and place your certificate and key in `src/ssl` prior to building the container. The default names for the files are `server.crt` and `server.key`, and are also configurable.
 
 ## Logs
 

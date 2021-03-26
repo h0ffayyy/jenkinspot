@@ -84,7 +84,14 @@ if __name__ == '__main__':
 
     try:
         jenkinspot_logger.info(f'Starting Jenkinspot on {host}:{port}')
-        app.run(host=host, port=port, debug=True, threaded=True)
+
+        if config['honeypot']['SSL'] == "true":
+            server_key = config['ssl']['KEY']
+            server_cert = config['ssl']['CERT']
+            context = (f'{dir_path}/ssl/{server_cert}', f'{dir_path}/ssl/{server_key}')
+            app.run(host=host, port=port, debug=True, threaded=True, ssl_context=context)
+        else:
+            app.run(host=host, port=port, debug=True, threaded=True)
     except Exception as e:
         print(e)
         jenkinspot_logger.error(e)
