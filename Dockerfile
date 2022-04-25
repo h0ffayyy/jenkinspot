@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 LABEL website="https://github.com/h0ffayyy/jenkinspot"
 LABEL desc="builds a jenkinspot container"
 RUN apt-get update && apt-get install --yes vim build-essential python3 python3-setuptools python3-pip supervisor
